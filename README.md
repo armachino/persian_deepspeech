@@ -85,7 +85,7 @@ python3 lm_optimizer.py \
 
 #{'lm_alpha': 0.9424157455163411, 'lm_beta': 4.414578333651529}
 
-cd farsi_scorer
+cd data/lm
 python3 generate_lm.py \
   --input_txt ../farsi_/farsi_scorer/alphabet_senteces.txt \
   --output_dir ../farsi_/farsi_scorer/ \
