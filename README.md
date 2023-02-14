@@ -41,7 +41,6 @@ docker run  -it \
  --gpus all \
   mozilla/deepspeech-train:v0.9.3
 ```
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
 
 
 ## Training a DeepSpeech model in container
