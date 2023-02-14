@@ -6,52 +6,76 @@
 ### [commonvoice](https://commonvoice.mozilla.org/)
 ## Installation
 
-### Install docker
+1. ### Install docker
 
-### Install the nvidia-container-toolkit 
-[nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker)
+2. ### Install the nvidia-container-toolkit
+   [nvidia-container-toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#docker) 
 
 
-### Fromating data 
-[deepspeech-palybook](https://mozilla.github.io/deepspeech-playbook/DATA_FORMATTING.html)
-#### Formating data for CommonVoice 
-[common voice](https://deepspeech.readthedocs.io/en/v0.9.3/TRAINING.html#common-voice-training-data)
 
-[readthedoc](https://deepspeech.readthedocs.io/en/v0.9.3/TRAINING.html#common-voice-training-data)
-1) convert all audio files to .wav using [sound convertor](https://ubuntuhandbook.org/index.php/2021/03/install-soundconverter-4-0-0-ubuntu-20-04/)
-2) replace existing modified **bin/import_cv2.py**
-3) run 
-```bash
-bin/import_cv2.py --filter_alphabet <alphabet.txt> <dataset_directory>
-```
-### Setting up your environment for training using DeepSpeech 
-[link](https://mozilla.github.io/deepspeech-playbook/ENVIRONMENT.html)
+3. ### Setting up your environment for training using DeepSpeech 
+   [link](https://mozilla.github.io/deepspeech-playbook/ENVIRONMENT.html)
    load image locally
 
-pull from dockerhub 
+   Pull image from dockerhub :
+   ```bash
+   docker pull mozilla/deepspeech-train:v0.9.3
+   ```
+4. ### Run Docker Container
+   ```bash
+   cd <data_path>
+
+   docker run  -it \
+   -v $(pwd)/:/DeepSpeech/data/<dataset_directory> \
+   --entrypoint /bin/bash \
+   --gpus all \
+   mozilla/deepspeech-train:v0.9.3
+   ```
+
+## Data preparation 
+[Deepspeech-palybook](https://mozilla.github.io/deepspeech-playbook/DATA_FORMATTING.html)
+- ### Formating data for CommonVoice datasets
+  [common voice website](https://voice.mozilla.org/data)
+
+  [readthedoc](https://deepspeech.readthedocs.io/en/v0.9.3/TRAINING.html#common-voice-training-data)
+     1. convert all audio files to .wav using [sound convertor](https://ubuntuhandbook.org/index.php/2021/03/install-soundconverter-4-0-0-ubuntu-20-04/).
+  2. Replace the  **import_cv2.py** file in the repository with  **/DeepSpeech/bin/import_cv2.py**.
+  3. Add your desired alphabet.txt in the dataset directory (Persian's alphabet is existed in repo)
+  4. install **Sox**
+     ```bash
+     apt-get -y update 
+     apt-get install -y sox
+     ```
+
+  5. Format data
+       ```bash
+       cd /DeepSpeech
+       python /bin/import_cv2.py --filter_alphabet <alphabet.txt_path> <dataset_directory>
+       #python bin/import_cv2.py --filter_alphabet data/myModel/alphabets.txt data/myModel/
+       ```
+
+
+  - ### **Making train,test,... files for training,testing the model**
+    You can use tools dir in the repo for modify and create  your own train,test,.. dataset.
+   
+    
+     1.
 ```bash
-docker pull mozilla/deepspeech-train:v0.9.3
-```
-### Run Docker Container
-```bash
-cd <data_path>
-docker run  -it \
- -v $(pwd)/:/DeepSpeech/data \
- --entrypoint /bin/bash \
- --gpus all \
-  mozilla/deepspeech-train:v0.9.3
 ```
 
 
-## Training a DeepSpeech model in container
+
+## Training a DeepSpeech model in the container
 [deepspeech-playbook](https://mozilla.github.io/deepspeech-playbook/TRAINING.html)
 
 [readthedoc](https://deepspeech.readthedocs.io/en/r0.9/TRAINING.html)
 
 [Command-line flags for the training scripts](https://deepspeech.readthedocs.io/en/v0.9.3/Flags.html#training-flags)
 ```bash
-python3 DeepSpeech.py \
-  --train_files data/farsi_/clips/train_.csv \
+cd data/<dataset_directory>
+#cd data/myModel/
+python3 ../..DeepSpeech.py \
+  --train_files <train_csv> \
    --test_files data/farsi_/clips/test_.csv \
    --audio_sample_rate 32000 \
    --alphabet_config_path data/farsi_/alphabets.txt \
@@ -63,7 +87,6 @@ python3 DeepSpeech.py \
     --es_epochs 1 \
     --epochs 5
 ```
-
 ## Scorer - language model for determining which words occur together
 [deepspeech-playbook](https://mozilla.github.io/deepspeech-playbook/SCORER.html)
 ### Building kenlm
