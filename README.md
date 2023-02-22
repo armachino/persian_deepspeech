@@ -122,17 +122,19 @@
 	[Command-line flags for the training scripts](https://deepspeech.readthedocs.io/en/v0.9.3/Flags.html#training-flags)
 - Start training
 	```bash
-	cd data/farsi_model/
+
 	python3 DeepSpeech.py \
   		--train_files data/farsi_model/clips/train_.csv \
   		--dev_files data/farsi_model/clips/validate_.csv \
   		--test_files data/farsi_model/clips/test_.csv \
+		--alphabet_config_path data/farsi_model/alphabets.txt \
   		--audio_sample_rate 32000 \
   		--checkpoint_dir data/farsi_model/checkpoints \
   		--export_dir data/farsi_model/exported_model \
   		--export_tflite data/farsi_model/exported_model_tflite \
   		--reduce_lr_on_plateau true \
   		--early_stop true \
+
 	```
 ## Scorer - language model for determining which words occur together
 [deepspeech-playbook](https://mozilla.github.io/deepspeech-playbook/SCORER.html)
@@ -142,6 +144,7 @@ python3 lm_optimizer.py \
 	--train_files data/farsi_model/clips/train_.csv \
   	--dev_files data/farsi_model/clips/validate_.csv \
   	--test_files data/farsi_model/clips/test_.csv \
+	--alphabet_config_path data/farsi_model/alphabets.txt
   	--audio_sample_rate 32000 \
   	--checkpoint_dir data/farsi_model/checkpoints \
   	--export_dir data/farsi_model/exported_model \
