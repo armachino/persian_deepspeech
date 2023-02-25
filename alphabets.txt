@@ -4,6 +4,7 @@
 ً
 ِ
 ٔ
+ّ
 ب
 پ
 ت
@@ -36,4 +37,4 @@
 ه
 ی
 ئ
-# The last (non-comment) line needs to end with a newline .
+# The last (non-comment) line needs to end with a newline.
