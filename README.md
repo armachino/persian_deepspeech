@@ -66,19 +66,20 @@
   [common voice website](https://voice.mozilla.org/data)
 
   [readthedoc](https://deepspeech.readthedocs.io/en/v0.9.3/TRAINING.html#common-voice-training-data)
-	1. convert all audio files to .wav using [sound convertor](https://ubuntuhandbook.org/index.php/2021/03/install-soundconverter-4-0-0-ubuntu-20-04/).
+	<!-- 1. convert all audio files to .wav using [sound convertor](https://ubuntuhandbook.org/index.php/2021/03/install-soundconverter-4-0-0-ubuntu-20-04/). -->
   	2. Replace the  **import_cv2.py** file in the repository with  **/DeepSpeech/bin/import_cv2.py**.
 	3. Add your desired alphabet.txt in the dataset directory (Persian's alphabet is existed in repo)
 	4. install **Sox**
 		```bash
 		$ apt-get -y update 
 		$ apt-get install -y sox
+		$ apt-get install libsox-fmt-mp3
 		```
 
   	5. Format data
 		```bash
 		cd /DeepSpeech
-		python /bin/import_cv2.py --filter_alphabet <alphabet.txt_path> <dataset_directory>
+		python bin/import_cv2.py --filter_alphabet <alphabet.txt_path> <dataset_directory>
 
 		#########################
 		cd /DeepSpeech
